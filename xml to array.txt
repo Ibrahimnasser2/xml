@@ -1,0 +1,55 @@
+vector <string> collecting(string xml) {
+	vector<string> temp = xml_vector("sample.xml");
+	vector<string> temp2;
+	;	string after;
+
+	bool t = true;
+	bool r = true;
+	int count = 0;
+	for (auto x : temp) {
+		after = x;
+		bool t = true;
+		bool r = true;
+		if (x[0] == '<') {
+			for (int i = 0; i < x.length(); i++) {
+				if (t == false) {
+					x.insert(i, "\n[");
+					t = true;
+					r = false;
+				}
+				if (x[i] == '<') {
+					if (r == false) {
+						x.insert(i, "]\n");
+
+						r = true;
+						continue;
+					}
+					else {
+						after = x.replace(i, 1, "\"");
+						continue;
+					}
+				}
+
+				if (x[i] == '>') {
+					after = x.replace(i, 1, "\"");
+					t = false;
+				}
+				if (x[i] == '/') {
+					after = x.replace(i, 1, "");
+					continue;
+				}
+
+			}
+			temp2.push_back(after);
+		}
+		else {
+
+			x.insert(0, "[");
+			x.insert(x.length(), "]");
+
+			temp2.push_back(x);
+		}
+	}
+	return temp2;
+
+}
